@@ -107,6 +107,38 @@ Errors_of_list list_push(struct MyList *list, int index, List_Elem_t elem)
     {
         return error;
     }
-    (list->tail)++;
+    return NO_ERRORS;
+}
+
+Errors_of_list list_pop(struct MyList *list, List_Elem_t elem)
+{
+    if (list == NULL)
+    {
+        return ERROR_OF_POP;
+    }
+    int j = 1;
+    while (j != -1)
+    {
+        //printf("j = %d element = %d\n", j, (list->data)[j].element);
+        if ((list->data)[j].element == elem)
+        {
+            break;
+        }
+        j = (list->data)[j].next_index;
+    }
+    if (j == -1)
+    {
+        return ERROR_OF_POP;
+    }
+    (list->data)[j].element = TOXIC;
+    (list->data)[(list->data)[j].prev_index].next_index = (list->data)[j].next_index;
+    (list->data)[(list->data)[j].next_index].prev_index = (list->data)[j].prev_index;
+    char operation[100] = "";
+    sprintf(operation, "pop_element_%d", elem);
+    Errors_of_list error = list_dump(list, operation);
+    if (error != NO_ERRORS)
+    {
+        return error;
+    }
     return NO_ERRORS;
 }
