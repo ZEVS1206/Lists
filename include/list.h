@@ -7,14 +7,17 @@ const size_t size_of_list = 10;
 
 enum Errors_of_list
 {
-    NO_ERRORS            = 0,
-    ERROR_OF_PUSH        = 1,
-    ERROR_OF_POP         = 2,
-    ERROR_OF_INDEX       = 3,
-    ERROR_OF_CONSTRUCTOR = 4,
-    ERROR_OF_DESTRUCTOR  = 5,
-    ERROR_OF_PRINT       = 6,
-    ERROR_OF_NO_ELEMENT  = 7
+    NO_ERRORS                 = 0,
+    ERROR_OF_PUSH             = 1,
+    ERROR_OF_POP              = 2,
+    ERROR_OF_INDEX            = 3,
+    ERROR_OF_CONSTRUCTOR      = 4,
+    ERROR_OF_DESTRUCTOR       = 5,
+    ERROR_OF_PRINT            = 6,
+    ERROR_OF_NO_ELEMENT       = 7,
+    ERROR_OF_OPEN_DUMP_FILE   = 8,
+    ERROR_OF_CREATING_COMMAND = 9,
+    ERROR_OF_DUMP             = 10
 };
 
 struct Data
