@@ -37,7 +37,6 @@ struct MyList
 
 Errors_of_list list_push(struct MyList *list, int index, List_Elem_t elem);
 Errors_of_list list_pop(struct MyList *list, int index, List_Elem_t *elem);
-Errors_of_list list_check(struct MyList *list);
 Errors_of_list list_print(struct MyList *list);
 
 

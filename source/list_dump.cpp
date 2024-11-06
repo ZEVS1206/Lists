@@ -35,7 +35,7 @@ Errors_of_list create_file_for_dump(struct MyList *list, FILE *file_pointer)
     }
     for (size_t j = 0; j < (list->size_of_list) - 1; j++)
     {
-        fprintf(file_pointer, "box%lu->box%lu [weight = 1000; color = white];\n", j, j + 1);
+        fprintf(file_pointer, "box%lu->box%lu [weight = 1000, color = white];\n", j, j + 1);
     }
     int i = 1;
     while (i != -1)
@@ -47,6 +47,17 @@ Errors_of_list create_file_for_dump(struct MyList *list, FILE *file_pointer)
             break;
         }
         fprintf(file_pointer, "box%d:<elem%d_ni>->box%d:<elem%d_ni> [color = red];\n", i, i, (list->data)[i].next_index, (list->data)[i].next_index);
+        i = (list->data)[i].next_index;
+    }
+    i = 1;
+    while (i != -1)
+    {
+        int k = (list->data)[i].next_index;
+        if (k == -1)
+        {
+            break;
+        }
+        fprintf(file_pointer, "box%d:<elem%d_pi>->box%d:<elem%d_pi> [color = blue];\n", i, i, (list->data)[i].prev_index, (list->data)[i].prev_index);
         i = (list->data)[i].next_index;
     }
     fprintf(file_pointer, "}\n");

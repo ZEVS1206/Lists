@@ -54,7 +54,7 @@ int main()
         fprintf(stderr, "error = %d\n", error);
         return 0;
     }
-    //error = list_print(&list);
+    error = list_print(&list);
     if (error != NO_ERRORS)
     {
         fprintf(stderr, "error = %d\n", error);

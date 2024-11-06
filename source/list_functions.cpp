@@ -90,7 +90,8 @@ Errors_of_list list_push(struct MyList *list, int index, List_Elem_t elem)
             }
         }
         (list->data)[free_index].element = elem;
-        (list->data)[free_index].prev_index = (list->data)[index].next_index;
+        (list->data)[free_index].prev_index = index + 1;
+        (list->data)[index + 2].prev_index = free_index;
         (list->data)[free_index].next_index = (list->data)[index + 1].next_index;
         (list->data)[index + 1].next_index = free_index;
     }
@@ -109,4 +110,3 @@ Errors_of_list list_push(struct MyList *list, int index, List_Elem_t elem)
     (list->tail)++;
     return NO_ERRORS;
 }
-
