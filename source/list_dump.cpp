@@ -12,7 +12,7 @@ Errors_of_list create_command_for_console(const char *file_in_name, const char *
         return ERROR_OF_CREATING_COMMAND;
     }
     char command_for_console[100] = "";
-    sprintf(command_for_console, "sudo dot -Tps %s -o %s.ps", file_in_name, file_out_name);
+    sprintf(command_for_console, "sudo dot -Tpng %s -o %s.png", file_in_name, file_out_name);
     system(command_for_console);
     return NO_ERRORS;
 }
@@ -25,28 +25,29 @@ Errors_of_list create_file_for_dump(struct MyList *list, FILE *file_pointer)
     }
     fprintf(file_pointer, "digraph List {\n");
     fprintf(file_pointer, "node [margin = \"0.01\"];\nrankdir = \"LR\";\n");
-    int j = 1;
-    while (j != -1)
+    for (size_t j = 0; j < (list->size_of_list); j++)
     {
-        if ((list->data)[j].next_index == -1)
-        {
-            break;
-        }
-        fprintf(file_pointer, "\"box%d\" [shape = \"record\", label = \"element = %d|next_index = %d|prev_index = %d\"];\n", j,
-                                                                                                (list->data)[j].element,
-                                                                                                (list->data)[j].next_index,
-                                                                                                (list->data)[j].prev_index);
-        j = (list->data)[j].next_index;
+        fprintf(file_pointer, "box%lu [shape = record, label = \"index = %lu|<elem%lu_elem> element = %d|<elem%lu_ni> next_index = %d|<elem%lu_pi> prev_index = %d\"];\n", j, j, j,
+                                                                                                                                                                         (list->data)[j].element, j,
+                                                                                                                                                                         (list->data)[j].next_index, j,
+                                                                                                                                                                         (list->data)[j].prev_index);
+
     }
-    j = 1;
-    while (j != -1)
+    for (size_t j = 0; j < (list->size_of_list) - 1; j++)
     {
-        if ((list->data)[j].next_index == -1)
+        fprintf(file_pointer, "box%lu->box%lu [weight = 1000; color = white];\n", j, j + 1);
+    }
+    int i = 1;
+    while (i != -1)
+    {
+        int k = (list->data)[i].next_index;
+        int l = (list->data)[k].next_index;
+        if (l == -1)
         {
             break;
         }
-        fprintf(file_pointer, "\"box%d\"->\"box%d\";\n", j, (list->data)[j].next_index);
-        j = (list->data)[j].next_index;
+        fprintf(file_pointer, "box%d:<elem%d_ni>->box%d:<elem%d_ni> [color = red];\n", i, i, (list->data)[i].next_index, (list->data)[i].next_index);
+        i = (list->data)[i].next_index;
     }
     fprintf(file_pointer, "}\n");
     fclose(file_pointer);
@@ -73,5 +74,9 @@ Errors_of_list list_dump(struct MyList *list, char *operation)
         return error;
     }
     error = create_command_for_console("dump/test.txt", file_out_name);
+    if (error != NO_ERRORS)
+    {
+        return error;
+    }
     return error;
 }

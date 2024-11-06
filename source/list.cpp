@@ -13,6 +13,10 @@ static Errors_of_list constructor(struct MyList *list)
     list->data = (Data *) calloc((list->size_of_list), sizeof(Data));
     for (size_t i = 1; i < (list->size_of_list); i++)
     {
+        list->data[i].element = -1985;
+    }
+    for (size_t i = 1; i < (list->size_of_list); i++)
+    {
         (list->data)[i].next_index = -1;
         (list->data)[i].prev_index = -1;
     }
