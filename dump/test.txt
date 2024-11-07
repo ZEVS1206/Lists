@@ -1,0 +1,36 @@
+digraph List {
+node [margin = "0.01"];
+rankdir = "LR";
+box0 [shape = record, label = "index = 0|<elem0_elem> element = 0|<elem0_ni> next_index = 0|<elem0_pi> prev_index = 0"];
+box1 [shape = record, label = "index = 1|<elem1_elem> element = 10|<elem1_ni> next_index = 2|<elem1_pi> prev_index = 0"];
+box2 [shape = record, label = "index = 2|<elem2_elem> element = 20|<elem2_ni> next_index = 8|<elem2_pi> prev_index = 1"];
+box3 [shape = record, label = "index = 3|<elem3_elem> element = 30|<elem3_ni> next_index = 9|<elem3_pi> prev_index = 8"];
+box4 [shape = record, label = "index = 4|<elem4_elem> element = 40|<elem4_ni> next_index = 5|<elem4_pi> prev_index = 9"];
+box5 [shape = record, label = "index = 5|<elem5_elem> element = 50|<elem5_ni> next_index = 7|<elem5_pi> prev_index = 4"];
+box6 [shape = record, label = "index = 6|<elem6_elem> element = -1985|<elem6_ni> next_index = 7|<elem6_pi> prev_index = 5"];
+box7 [shape = record, label = "index = 7|<elem7_elem> element = -1985|<elem7_ni> next_index = -1|<elem7_pi> prev_index = 5"];
+box8 [shape = record, label = "index = 8|<elem8_elem> element = 25|<elem8_ni> next_index = 3|<elem8_pi> prev_index = 2"];
+box9 [shape = record, label = "index = 9|<elem9_elem> element = 35|<elem9_ni> next_index = 4|<elem9_pi> prev_index = 3"];
+box0->box1 [weight = 1000, color = white];
+box1->box2 [weight = 1000, color = white];
+box2->box3 [weight = 1000, color = white];
+box3->box4 [weight = 1000, color = white];
+box4->box5 [weight = 1000, color = white];
+box5->box6 [weight = 1000, color = white];
+box6->box7 [weight = 1000, color = white];
+box7->box8 [weight = 1000, color = white];
+box8->box9 [weight = 1000, color = white];
+box1:<elem1_ni>->box2:<elem2_ni> [color = red];
+box2:<elem2_ni>->box8:<elem8_ni> [color = red];
+box8:<elem8_ni>->box3:<elem3_ni> [color = red];
+box3:<elem3_ni>->box9:<elem9_ni> [color = red];
+box9:<elem9_ni>->box4:<elem4_ni> [color = red];
+box4:<elem4_ni>->box5:<elem5_ni> [color = red];
+box1:<elem1_pi>->box0:<elem0_pi> [color = blue];
+box2:<elem2_pi>->box1:<elem1_pi> [color = blue];
+box8:<elem8_pi>->box2:<elem2_pi> [color = blue];
+box3:<elem3_pi>->box8:<elem8_pi> [color = blue];
+box9:<elem9_pi>->box3:<elem3_pi> [color = blue];
+box4:<elem4_pi>->box9:<elem9_pi> [color = blue];
+box5:<elem5_pi>->box4:<elem4_pi> [color = blue];
+}

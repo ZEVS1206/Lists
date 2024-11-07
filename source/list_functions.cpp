@@ -14,19 +14,6 @@ Errors_of_list list_print(struct MyList *list)
     int j = 1;
     while (j != -1)
     {
-        // printf("\n");
-        // for (size_t i = 1; i < (list->size_of_list); i++)
-        // {
-        //     printf("%2d ", (list->data)[i].next_index);
-        // }
-        // printf("\n");
-        // for (size_t i = 1; i < (list->size_of_list); i++)
-        // {
-        //     printf("%2lu ", i);
-        // }
-        // printf("\n");
-        // getchar();
-        //printf("j = %d next_index = %d\n", j, (list->data)[j].next_index);
         if ((list->data)[j].next_index == -1)
         {
             break;
@@ -35,16 +22,6 @@ Errors_of_list list_print(struct MyList *list)
         j = (list->data)[j].next_index;
     }
     printf("\n");
-    // printf("%d ", (list->data)[1].element);
-    // for (size_t i = 1; i < (list->size_of_list); i++)
-    // {
-    //     if ((list->data)[i].next_index == -1)
-    //     {
-    //         continue;
-    //     }
-    //     //printf("i = %lu\n", i);
-    //     printf("%d ", (list->data)[(list->data)[i].next_index].element);
-    // }
     printf("\nnext: ");
     for (size_t i = 1; i < (list->size_of_list); i++)
     {

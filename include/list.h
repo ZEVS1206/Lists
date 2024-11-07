@@ -16,9 +16,8 @@ enum Errors_of_list
     ERROR_OF_DESTRUCTOR       = 5,
     ERROR_OF_PRINT            = 6,
     ERROR_OF_NO_ELEMENT       = 7,
-    ERROR_OF_OPEN_DUMP_FILE   = 8,
-    ERROR_OF_CREATING_COMMAND = 9,
-    ERROR_OF_DUMP             = 10
+    ERROR_OF_CREATING_COMMAND = 8,
+    ERROR_OF_DUMP             = 9
 };
 
 struct Data

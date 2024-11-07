@@ -4,6 +4,9 @@
 
 #include "list_dump.h"
 #include "list.h"
+static Errors_of_list create_boxes_of_info(struct MyList *list, FILE *file_pointer);
+static Errors_of_list create_next_connections(struct MyList *list, FILE *file_pointer);
+static Errors_of_list create_prev_connections(struct MyList *list, FILE *file_pointer);
 
 Errors_of_list create_command_for_console(const char *file_in_name, const char *file_out_name)
 {
@@ -17,48 +20,90 @@ Errors_of_list create_command_for_console(const char *file_in_name, const char *
     return NO_ERRORS;
 }
 
-Errors_of_list create_file_for_dump(struct MyList *list, FILE *file_pointer)
+static Errors_of_list create_boxes_of_info(struct MyList *list, FILE *file_pointer)
 {
-    if (file_pointer == NULL)
+    if (list == NULL || file_pointer == NULL)
     {
-        return ERROR_OF_OPEN_DUMP_FILE;
+        return ERROR_OF_DUMP;
     }
-    fprintf(file_pointer, "digraph List {\n");
-    fprintf(file_pointer, "node [margin = \"0.01\"];\nrankdir = \"LR\";\n");
-    for (size_t j = 0; j < (list->size_of_list); j++)
+    for (size_t index = 0; index < (list->size_of_list); index++)
     {
-        fprintf(file_pointer, "box%lu [shape = record, label = \"index = %lu|<elem%lu_elem> element = %d|<elem%lu_ni> next_index = %d|<elem%lu_pi> prev_index = %d\"];\n", j, j, j,
-                                                                                                                                                                         (list->data)[j].element, j,
-                                                                                                                                                                         (list->data)[j].next_index, j,
-                                                                                                                                                                         (list->data)[j].prev_index);
+        fprintf(file_pointer, "box%lu [shape = record, label = \"index = %lu|<elem%lu_elem> element = %d|<elem%lu_ni> next_index = %d|<elem%lu_pi> prev_index = %d\"];\n", index, index, index,
+                                                                                                                                                                         (list->data)[index].element, index,
+                                                                                                                                                                         (list->data)[index].next_index, index,
+                                                                                                                                                                         (list->data)[index].prev_index);
 
     }
-    for (size_t j = 0; j < (list->size_of_list) - 1; j++)
+    for (size_t index = 0; index < (list->size_of_list) - 1; index++)
     {
-        fprintf(file_pointer, "box%lu->box%lu [weight = 1000, color = white];\n", j, j + 1);
+        fprintf(file_pointer, "box%lu->box%lu [weight = 1000, color = white];\n", index, index + 1);
     }
-    int i = 1;
-    while (i != -1)
+    return NO_ERRORS;
+}
+
+static Errors_of_list create_next_connections(struct MyList *list, FILE *file_pointer)
+{
+    if (list == NULL || file_pointer == NULL)
     {
-        int k = (list->data)[i].next_index;
+        return ERROR_OF_DUMP;
+    }
+    int index = 1;
+    while (index != -1)
+    {
+        int k = (list->data)[index].next_index;
         int l = (list->data)[k].next_index;
         if (l == -1)
         {
             break;
         }
-        fprintf(file_pointer, "box%d:<elem%d_ni>->box%d:<elem%d_ni> [color = red];\n", i, i, (list->data)[i].next_index, (list->data)[i].next_index);
-        i = (list->data)[i].next_index;
+        fprintf(file_pointer, "box%d:<elem%d_ni>->box%d:<elem%d_ni> [color = red];\n", index, index, (list->data)[index].next_index, (list->data)[index].next_index);
+        index = (list->data)[index].next_index;
     }
-    i = 1;
-    while (i != -1)
+    return NO_ERRORS;
+}
+
+static Errors_of_list create_prev_connections(struct MyList *list, FILE *file_pointer)
+{
+    if (list == NULL || file_pointer == NULL)
     {
-        int k = (list->data)[i].next_index;
+        return ERROR_OF_DUMP;
+    }
+    int index = 1;
+    while (index != -1)
+    {
+        int k = (list->data)[index].next_index;
         if (k == -1)
         {
             break;
         }
-        fprintf(file_pointer, "box%d:<elem%d_pi>->box%d:<elem%d_pi> [color = blue];\n", i, i, (list->data)[i].prev_index, (list->data)[i].prev_index);
-        i = (list->data)[i].next_index;
+        fprintf(file_pointer, "box%d:<elem%d_pi>->box%d:<elem%d_pi> [color = blue];\n", index, index, (list->data)[index].prev_index, (list->data)[index].prev_index);
+        index = (list->data)[index].next_index;
+    }
+    return NO_ERRORS;
+}
+
+Errors_of_list create_file_for_dump(struct MyList *list, FILE *file_pointer)
+{
+    if (list == NULL || file_pointer == NULL)
+    {
+        return ERROR_OF_DUMP;
+    }
+    fprintf(file_pointer, "digraph List {\n");
+    fprintf(file_pointer, "node [margin = \"0.01\"];\nrankdir = \"LR\";\n");
+    Errors_of_list error = create_boxes_of_info(list, file_pointer);
+    if (error != NO_ERRORS)
+    {
+        return error;
+    }
+    error = create_next_connections(list, file_pointer);
+    if (error != NO_ERRORS)
+    {
+        return error;
+    }
+    error = create_prev_connections(list, file_pointer);
+    if (error != NO_ERRORS)
+    {
+        return error;
     }
     fprintf(file_pointer, "}\n");
     fclose(file_pointer);
@@ -74,7 +119,7 @@ Errors_of_list list_dump(struct MyList *list, char *operation)
     FILE *file_pointer = fopen("dump/test.txt", "w");
     if (file_pointer == NULL)
     {
-        return ERROR_OF_OPEN_DUMP_FILE;
+        return ERROR_OF_DUMP;
     }
     char file_out_name[100] = "dump/";
     strcat(file_out_name, operation);
