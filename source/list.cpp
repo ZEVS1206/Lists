@@ -11,6 +11,7 @@ static Errors_of_list constructor(struct MyList *list)
 {
     list->size_of_list = size_of_list;
     list->data = (Data *) calloc((list->size_of_list), sizeof(Data));
+    (list->free).array_of_free_cells = (int *) calloc((list->size_of_list), sizeof(int));
     for (size_t i = 1; i < (list->size_of_list); i++)
     {
         list->data[i].element = TOXIC;
@@ -20,6 +21,12 @@ static Errors_of_list constructor(struct MyList *list)
         (list->data)[i].next_index = -1;
         (list->data)[i].prev_index = -1;
     }
+    for (size_t i = 1; i < (list->size_of_list); i++)
+    {
+        ((list->free).array_of_free_cells)[i] = i;
+    }
+    (list->free).free_index = 1;
+    (list->free_cell) = (list->free).array_of_free_cells[(list->free).free_index];
     if (list->data == NULL)
     {
         return ERROR_OF_CONSTRUCTOR;
@@ -78,10 +85,14 @@ static Errors_of_list destructor(struct MyList *list)
         (list->data)[i].element = 0;
         (list->data)[i].next_index = 0;
         (list->data)[i].prev_index = 0;
+        ((list->free).array_of_free_cells)[i] = 0;
     }
     list->size_of_list = 0;
     list->head = 0;
     list->tail = 0;
+    (list->free).free_index = 0;
+    list->free_cell = 0;
     free(list->data);
+    free((list->free).array_of_free_cells);
     return NO_ERRORS;
 }

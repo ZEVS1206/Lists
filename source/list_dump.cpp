@@ -34,6 +34,7 @@ static Errors_of_list create_boxes_of_info(struct MyList *list, FILE *file_point
                                                                                                                                                                          (list->data)[index].prev_index);
 
     }
+    fprintf(file_pointer, "info [shape = record, label = \"free_cell = %d\"];\n", (list->free_cell));
     for (size_t index = 0; index < (list->size_of_list) - 1; index++)
     {
         fprintf(file_pointer, "box%lu->box%lu [weight = 1000, color = white];\n", index, index + 1);
@@ -51,8 +52,7 @@ static Errors_of_list create_next_connections(struct MyList *list, FILE *file_po
     while (index != -1)
     {
         int k = (list->data)[index].next_index;
-        int l = (list->data)[k].next_index;
-        if (l == -1)
+        if (k == -1)
         {
             break;
         }
@@ -71,11 +71,6 @@ static Errors_of_list create_prev_connections(struct MyList *list, FILE *file_po
     int index = 1;
     while (index != -1)
     {
-        int k = (list->data)[index].next_index;
-        if (k == -1)
-        {
-            break;
-        }
         fprintf(file_pointer, "box%d:<elem%d_pi>->box%d:<elem%d_pi> [color = blue];\n", index, index, (list->data)[index].prev_index, (list->data)[index].prev_index);
         index = (list->data)[index].next_index;
     }

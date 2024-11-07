@@ -3,7 +3,7 @@
 
 typedef int List_Elem_t;
 
-const size_t size_of_list = 10;
+const size_t size_of_list = 11;
 const int TOXIC = -1985;
 
 enum Errors_of_list
@@ -27,10 +27,18 @@ struct Data
     int prev_index;
 };
 
+struct Free_Cells
+{
+    int *array_of_free_cells;
+    int free_index;
+};
+
 struct MyList
 {
     Data *data;
     size_t size_of_list;
+    Free_Cells free;
+    int free_cell;
     int head;
     int tail;
 };
